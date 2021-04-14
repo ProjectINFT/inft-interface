@@ -1,0 +1,134 @@
+@import './../../theme.less';
+
+.price-container {
+  margin-bottom: 80px;
+  display: flex;
+}
+.additional-container {
+  width: 400px;
+  &__title {
+    margin-bottom: 15px;
+  }
+  &__item {
+    margin-bottom: 10px;
+
+    &__title {
+      opacity: 0.6;
+      line-height: 19px;
+    }
+    &__circle {
+      display: inline-block;
+      width: 4px;
+      height: 4px;
+      background-color: #858687;
+      border-radius: 50%;
+      margin-right: 6px;
+    }
+    &__subtitle {
+      opacity: 0.2;
+      padding: 2px 0 0 10px;
+    }
+  }
+  .additional-container__more-button {
+    color: @color-blue;
+  }
+}
+
+.charts-container {
+  width: 860px;
+  height: 357px;
+  box-sizing: border-box;
+  border: 1px solid #bfcee3;
+  border-radius: 8px;
+  .highcharts-axis-title {
+    display: none;
+  }
+  .highcharts-credits {
+    display: none;
+  }
+  &__header {
+    padding: 16px;
+    border-bottom: 1px solid #eef4fc;
+    img {
+      width: 24px;
+      height: 24px;
+      margin-right: 12px;
+    }
+    &__select {
+      .ant-select {
+        width: 133px;
+        height: 34px;
+      }
+    }
+  }
+  &__subtitle {
+    padding-left: 16px;
+    margin-bottom: 37px;
+    &__title {
+      padding: 12px 0 3px;
+    }
+    &__price {
+      img {
+        width: 16px;
+        height: 16px;
+        margin-right: 6px;
+      }
+    }
+    .charts-container__subtitle__price-eth {
+      color: @color-blue;
+    }
+  }
+
+  .price-charts {
+    width: 796px;
+    height: 170px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .price-container {
+    display: block;
+    margin-bottom: 86px;
+  }
+  .additional-container {
+    width: inherit;
+    margin: 0 16px;
+    &__title {
+      margin-bottom: 12px;
+    }
+    &__item {
+      margin-bottom: 12px;
+    }
+  }
+
+  .charts-container {
+    margin: 0 auto 54px;
+    width: 343px;
+    height: 292px;
+    &__subtitle {
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      padding-top: 13px;
+      &__title {
+        padding: 0 0;
+      }
+      &__price {
+        margin-left: 16px;
+        img {
+          width: 16px;
+          height: 16px;
+          margin-right: 6px;
+        }
+      }
+      .charts-container__subtitle__price-eth {
+        color: @color-blue;
+      }
+    }
+
+    .price-charts {
+      width: inherit;
+      height: 170px;
+    }
+  }
+}

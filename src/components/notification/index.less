@@ -1,0 +1,50 @@
+.notification-container {
+  &__setting {
+    margin-top: 138px;
+    .title_3 {
+      font-size: 24px;
+      margin-bottom: 4px;
+    }
+    .body_2 {
+      color: rgba(52, 52, 55, 0.6);
+    }
+  }
+  &__item {
+    margin-bottom: 36px;
+  }
+}
+
+.notification {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .ant-switch-checked .ant-switch-handle {
+    left: calc(100% - 27px - 2px);
+  }
+  .ant-switch-checked {
+    background-color: #34c759;
+  }
+  &__switch {
+    width: 51px;
+    height: 31px;
+    .ant-switch-handle {
+      width: 27px;
+      height: 27px;
+    }
+    .ant-switch-handle::before {
+      border-radius: 50%;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .notification-container {
+    &__setting {
+      margin-top: 124px;
+    }
+    &__item {
+      margin-bottom: 40px;
+    }
+  }
+
+}

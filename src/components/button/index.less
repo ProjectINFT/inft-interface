@@ -1,0 +1,46 @@
+@import './../../theme.less';
+
+.inft-button {
+  width: 250px;
+  height: 46px;
+  background-color: #fff;
+  border-radius: 4px;
+  border: 1px solid #4199f7;
+  box-sizing: border-box;
+  outline: none;
+  color: @color-blueDark;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 16px;
+  font-weight: 600;
+  &:hover {
+    background-color: rgba(65, 153, 247, 0.2);
+  }
+  &:disabled {
+    color: #c3e0fc;
+    border: 1px solid #c3e0fc;
+    &:hover {
+      background-color: #fff;
+      cursor: auto;
+    }
+  }
+  &--primary {
+    background: #ffa710;
+    border: 1px solid #ffa710;
+    color: @color-white;
+    &:hover {
+      background-color: #f6c148;
+      border: 1px solid #f6c148;
+    }
+    &:disabled {
+      border: 1px solid rgba(255, 167, 16, 0.4);
+      &:hover {
+        background-color: rgba(255, 167, 16, 0.4);
+        cursor: auto;
+      }
+    }
+  }
+  &--fullWidth {
+    width: 100%;
+  }
+}

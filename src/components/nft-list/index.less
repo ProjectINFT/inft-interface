@@ -1,0 +1,76 @@
+@import './../../theme.less';
+
+.nft-container {
+  padding-top: 95px;
+  overflow: hidden;
+  &__item {
+    width: 384px;
+    float: left;
+    margin-right: 54px;
+    margin-bottom: 40px;
+    &:nth-child(3n + 3) {
+      margin-right: 0;
+    }
+  }
+}
+.nft-item {
+  display: flex;
+  align-items: flex-start;
+  cursor: pointer;
+  transition: transform 0.3s;
+  &:hover {
+    transform: translateY(-4px);
+  }
+  img {
+    display: block;
+    width: 100px;
+    height: 100px;
+  }
+  &__info {
+    flex: 1;
+    padding-left: 24px;
+    h1 {
+      width: 260px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    p {
+      width: 260px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      opacity: 0.5;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .nft-container {
+    overflow: hidden;
+    padding: 27px 16px 0;
+    &__item {
+      width: 100%;
+      float: none;
+      margin-right: 0;
+      margin-bottom: 24px;
+    }
+  }
+  .nft-item {
+    &:hover {
+      transform: none;
+    }
+    img {
+      width: 88px;
+      height: 88px;
+    }
+    &__info {
+      padding-left: 16px;
+      p {
+        width: 100%;
+      }
+    }
+  }
+}

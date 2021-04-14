@@ -1,0 +1,224 @@
+@import './../../theme.less';
+
+.header {
+  width: 100%;
+  &__wrapper {
+    width: 100%;
+    height: 80px;
+    padding: 0 32px;
+    background-color: @color-black;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  &__logo {
+    display: block;
+    width: 128px;
+    height: 40px;
+  }
+  &__right {
+    display: flex;
+  }
+}
+.header-m {
+  width: 100%;
+  background-color: @color-black;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid @color-white-opacity-3;
+  &__logo {
+    display: block;
+    width: 64px;
+    height: 20px;
+  }
+  &__menu {
+    display: block;
+    width: 20px;
+    height: 20px;
+  }
+  &__nav {
+    text-transform: uppercase !important;
+    color: @color-white !important;
+    padding: 16px 0;
+    border-bottom: 1px solid @color-white-opacity-2;
+    .ant-collapse > .ant-collapse-item > .ant-collapse-header {
+      padding: 0;
+      color: @color-white;
+    }
+    .ant-collapse-icon-position-right > .ant-collapse-item > .ant-collapse-header .ant-collapse-arrow {
+      right: 0;
+    }
+    .ant-collapse-ghost > .ant-collapse-item > .ant-collapse-content {
+      padding-top:  10px;
+    }
+    .ant-collapse-ghost > .ant-collapse-item > .ant-collapse-content > .ant-collapse-content-box {
+      color: @color-white;
+      
+    }
+  }
+ 
+}
+@media screen and (max-width: 768px) {
+}
+.header-advertisement {
+  width: 100%;
+  height: 40px;
+  background-color: @color-black;
+  overflow: hidden;
+  padding: 0 12px;
+  position: relative;
+  border-bottom: 1px solid @color-white-opacity-3;
+  text-align: center;
+  transition: height 0.5s;
+  &--hide {
+    height: 0;
+  }
+  &__close {
+    display: block;
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    cursor: pointer;
+  }
+  &__text {
+    line-height: 40px;
+    color: @color-white;
+    font-size: 12px;
+  }
+}
+
+.header-navbar {
+  display: flex;
+  align-items: center;
+  &__item {
+    margin-right: 45px;
+    position: relative;
+  }
+  &__href {
+    font-size: 18px;
+    font-weight: bold;
+    color: @color-white-opacity-6;
+    &--active {
+      color: @color-white;
+    }
+    &:hover {
+      color: @color-yellow;
+    }
+  }
+  &__line {
+    width: 100%;
+    height: 4px;
+    background-color: @color-yellow;
+    border-radius: 4px;
+    position: absolute;
+    top: 26px;
+  }
+}
+
+.header-language {
+  position: relative;
+  &__menu {
+    position: absolute;
+    top: 80px;
+    right: 0;
+    z-index: @zIndex-base;
+    background-color: @color-deepBlack;
+  }
+  &__menu-item {
+    width: 200px;
+    padding: 16px;
+    color: @color-white;
+    transition: opacity 0.2s;
+    cursor: pointer;
+    opacity: 0.5;
+    &:hover {
+      opacity: 1;
+    }
+  }
+  &__current {
+    display: flex;
+    height: 80px;
+    padding-right: 20px;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    opacity: 0.5;
+    transition: opacity 0.2s;
+    &:hover {
+      opacity: 1;
+    }
+    &::after {
+      content: '';
+      display: block;
+      width: 1px;
+      height: 24px;
+      background: @color-white-opacity-3;
+      position: absolute;
+      top: 28px;
+      right: 0;
+    }
+    p {
+      color: @color-white;
+      font-size: 12px;
+      margin-right: 7px;
+    }
+    img {
+      display: block;
+      width: 8px;
+    }
+  }
+}
+
+.header-account {
+  position: relative;
+  &__dropdown {
+    position: absolute;
+    top: 80px;
+    right: 0;
+    z-index: @zIndex-base;
+    background-color: @color-deepBlack;
+    width: 200px;
+    padding: 0 16px;
+  }
+  &__menu {
+    padding: 4px 0;
+    border-bottom: 1px solid @color-white-opacity-2;
+  }
+  &__menu-item {
+    display: flex;
+    align-items: center;
+    color: @color-white;
+    opacity: 0.5;
+    padding: 16px 0;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    img {
+      margin-right: 14px;
+    }
+    &:hover {
+      opacity: 1;
+    }
+  }
+  &__current {
+    display: flex;
+    height: 80px;
+    padding-left: 20px;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    opacity: 0.5;
+    transition: opacity 0.2s;
+    &:hover {
+      opacity: 1;
+    }
+    p {
+      color: @color-white;
+      font-size: 12px;
+      margin-right: 7px;
+    }
+  }
+}

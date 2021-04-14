@@ -1,0 +1,105 @@
+@import '../theme.less';
+
+.payment-success {
+  &__wrapper {
+    margin: 80px auto 200px;
+    width: 400px;
+    box-sizing: border-box;
+    text-align: center;
+    &__container {
+      border: 1px solid #e3e3e3;
+      padding: 36px 29px 20px;
+      border-radius: 8px;
+    }
+    img {
+      display: block;
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 24px;
+    }
+    .title_1 {
+      color: #26d07c;
+      margin-bottom: 16px;
+    }
+    &__desc {
+      padding-bottom: 44px;
+      border-bottom: 1px dashed #e3e3e3;
+      position: relative;
+      &__circle {
+        width: 20px;
+        height: 20px;
+        border: 1px solid #e3e3e3;
+        border-radius: 50%;
+        border-top-color: transparent;
+        border-left-color: transparent;
+        transform: rotate(-45deg);
+        background-color: #fff;
+
+        &__left {
+          position: absolute;
+          bottom: -10px;
+          left: -40px;
+        }
+        &__right {
+          position: absolute;
+          bottom: -10px;
+          right: -40px;
+          transform: rotate(135deg);
+        }
+      }
+    }
+    .body_1 {
+      color: @color-dark;
+    }
+    .tip {
+      color: @color-blueDark;
+    }
+    &__price {
+      padding: 20px 0 6px;
+      .title_3 {
+        opacity: 0.6;
+      }
+    }
+    &__number {
+      .title_3,
+      .body_1 {
+        opacity: 0.6;
+      }
+    }
+  }
+  &__back {
+    background: #ffa710;
+    border-radius: 4px;
+    width: 250px;
+    height: 46px;
+    border: none;
+    font-weight: 600;
+    font-size: 16px;
+    color: #fff;
+    text-transform: capitalize;
+    margin-top: 80px;
+    &:hover {
+      color: #fff;
+      background: #ffa710;
+    }
+    &:focus {
+      color: #fff;
+      background: #ffa710;
+    }
+  }
+}
+@media screen and (max-width: 768px) {
+  .payment-success {
+    &__wrapper {
+      margin: 64px auto 43px;
+      width: 340px;
+      box-sizing: border-box;
+      text-align: center;
+      &__container {
+        border: 1px solid #e3e3e3;
+        padding: 36px 23px 20px;
+        border-radius: 8px;
+      }
+    }
+  }
+}

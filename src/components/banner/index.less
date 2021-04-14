@@ -1,0 +1,170 @@
+@import './../../theme.less';
+
+.banner {
+  width: 100%;
+  height: 530px;
+  background-color: #faeadc;
+  position: relative;
+  &__container {
+    width: 1400px;
+    height: 530px;
+    background: url('../../../public/images/banner-bg.png');
+    background-size: cover;
+    position: absolute;
+    top: 0;
+    left: -700px;
+    margin-left: 50%;
+  }
+  &__wrapper {
+    width: @width;
+    margin: 0 auto;
+    position: relative;
+    display: flex;
+  }
+  &__core {
+    display: block;
+    width: 307px;
+    position: absolute;
+    top: 160px;
+    left: 310px;
+  }
+  &__left {
+    flex: 1;
+    padding-top: 73px;
+  }
+  &__title {
+    display: block;
+    width: 490px;
+    font-size: 36px;
+    font-weight: bold;
+  }
+  &__subTitle {
+    margin-top: 10px;
+    color: @color-dark;
+    opacity: 0.3;
+    text-transform: uppercase;
+  }
+  &__explore {
+    width: 164px;
+    height: 48px;
+    margin-top: 57px;
+    background-color: @color-yellow;
+    border: none;
+    border-radius: 55px;
+    color: @color-white;
+    font-size: 16px;
+    &:hover {
+      background-color: @color-yellow;
+      color: @color-white;
+    }
+  }
+  &__right {
+    width: 528px;
+    padding: 40px 0;
+  }
+}
+
+.banner-nft {
+  width: 100%;
+  position: relative;
+  height: 215px;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  &__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: @zIndex-low;
+  }
+  &__buyBtn {
+    height: 46px;
+    border: none;
+    padding: 0 26px;
+    color: @color-blue;
+    font-weight: bold;
+    border-radius: 4px;
+    margin-top: 28px;
+    &:hover {
+      background-color: @color-blueBg;
+      color: @color-white;
+    }
+  }
+  &__wrapper {
+    position: absolute;
+    z-index: @zIndex-base;
+    top: 0;
+    left: 0;
+    padding: 30px 20px 0;
+    h2 {
+      color: @color-white;
+      font-weight: bold;
+      font-size: 22px;
+    }
+    p {
+      color: @color-white;
+      font-size: 14px;
+      width: 380px;
+      margin-top: 12px;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .banner {
+    height: auto;
+    &__container {
+      width: 100%;
+      height: 500px;
+      background: url('../../../public/images/banner-bg-m.png');
+      background-size: cover;
+      position: relative;
+      top: unset;
+      left: unset;
+      margin-left: 0;
+    }
+    &__wrapper {
+      width: 100%;
+      padding: 0 16px;
+      display: block;
+    }
+    &__core {
+      width: 190px;
+      top: 232px;
+      right: 33px;
+      left: unset;
+    }
+    &__left {
+      padding-top: 45px;
+    }
+    &__title {
+      width: 100%;
+      font-size: 24px;
+      line-height: 36px;
+    }
+    &__subTitle {
+      margin-top: 5px;
+      text-transform: uppercase;
+      width: 60%;
+    }
+    &__explore {
+      margin-top: 32px;
+    }
+  }
+  .banner-m__container {
+    background-color: #faeadc;
+    padding: 0 16px 10px;
+  }
+  .banner-nft {
+    height: 180px;
+    &__buyBtn {
+     display: none;
+    }
+    &__wrapper {
+      p {
+        width: 100%;
+      }
+    }
+  }
+}
