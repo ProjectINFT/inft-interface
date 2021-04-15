@@ -4,6 +4,8 @@ import _ from 'lodash';
 type ParamterType =
   | 'categories'
   | 'collection'
+  | 'address'
+  | 'token_id'
   | 'status'
   | 'paymentAssets'
   | 'lang';
@@ -12,6 +14,8 @@ type LanguageType = 'zh' | 'en';
 type QueryType = {
   categories?: string;
   collection?: string;
+  address?: string;
+  token_id?: string;
   status?: string;
   paymentAssets?: string;
   lang?: LanguageType;
@@ -20,7 +24,7 @@ type QueryType = {
 const historyPush = (
   pathname: string,
   paramter: ParamterType,
-  value: string,
+  value: any,
   query: QueryType,
   lang?: LanguageType,
 ) => {
@@ -44,6 +48,16 @@ const historyPush = (
       query: {
         ...query,
         lang: value,
+      },
+    });
+  }
+  if (paramter === 'address') {
+    history.push({
+      pathname: `/${pathname}`,
+      query: {
+        ...query,
+        address: value.asset_contract.address,
+        token_id: value.token_id,
       },
     });
   }

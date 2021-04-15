@@ -1,15 +1,21 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import './index.less';
 import AuctionLoader from './auction-loader';
-import { UserAgent } from '@quentin-sommer/react-useragent';
+import {UserAgent} from '@quentin-sommer/react-useragent';
+import historyPush from "@/utils/historyPush";
 
 interface IAuction {
   token: any;
+  query: any;
 }
 
-const Auction: React.FC<IAuction> = ({ token }) => {
+const Auction: React.FC<IAuction> = ({token, query}) => {
   return (
-    <div className="auction">
+    <div className="auction"
+         onClick={() => {
+           historyPush('asset', 'address', token, query);
+         }}
+    >
       <div className="auction__img">
         {token?.image_url ? (
           <img src={token?.image_url} alt="" />

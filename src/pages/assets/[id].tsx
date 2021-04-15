@@ -9,6 +9,7 @@ import './index.less';
 import { UAContext } from '@quentin-sommer/react-useragent';
 
 const BrowseDetail = (props: { title: any }) => {
+  console.log(props.location.query);
   const { title } = props;
   const uaResults = useContext(UAContext).uaResults as UAResults;
   const isMobile = uaResults.mobile;

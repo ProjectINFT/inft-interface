@@ -1,34 +1,34 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { connect, useIntl, getLocale, setLocale, Helmet, history } from 'umi';
-import { Header } from '@/components/header';
+import React, {useContext, useState, useEffect} from 'react';
+import {connect, useIntl, getLocale, setLocale, Helmet, history} from 'umi';
+import {Header} from '@/components/header';
 import './assets.less';
-import { UAContext, UserAgent } from '@quentin-sommer/react-useragent';
-import { Input, Select, Drawer } from 'antd';
-const { Option } = Select;
-import { SearchOutlined } from '@ant-design/icons';
+import {UAContext, UserAgent} from '@quentin-sommer/react-useragent';
+import {Input, Select, Drawer} from 'antd';
+
+const {Option} = Select;
+// import {SearchOutlined} from '@ant-design/icons';
 import {
   Categories,
   Collection,
   SellIn,
   Status,
   CategoryInfo,
-  SellItems,
+  // SellItems,
 } from '@/components/browse';
 import axios from 'axios';
-import { Auction } from '@/components/auction';
-import BigNumber from 'bignumber.js';
+import {Auction} from '@/components/auction';
+// import BigNumber from 'bignumber.js';
 import historyPush from '@/utils/historyPush';
 
 const Assets = (props: any) => {
-  const intl = useIntl();
-  const uaResults = useContext(UAContext).uaResults as UAResults;
-  const isMobile = uaResults.mobile;
+  // const intl = useIntl();
+  // const uaResults = useContext(UAContext).uaResults as UAResults;
+  // const isMobile = uaResults.mobile;
   const [visible, setVisible] = useState(false);
   const [tokens, setTokens] = useState<any[]>([]);
   const [config, setConfig] = useState<any>(null);
 
   const query = props.location.query;
-  console.log(query);
 
   const onClose = () => {
     setVisible(!visible);
@@ -41,33 +41,37 @@ const Assets = (props: any) => {
     </div>
   );
   useEffect(() => {
-    axios.get('https://api.inft.io/app/assets').then(res => {
-      const response = res.data.data;
+    axios.get('https://api.opensea.io/api/v1/assets?token_ids=288734&order_direction=desc&offset=0&limit=20').then(res => {
+      const response = res.data.assets;
       if (response) {
-        console.log(response);
-        setConfig(response);
-        if (response?.search?.edges) {
-          const tokens = response?.search?.edges?.map((item: any) => {
-            if (item?.node?.asset?.imageUrl) {
-              const decimals =
-                item?.node?.asset?.orderData?.bestAsk?.paymentAssetQuantity
-                  ?.asset?.decimals;
-              const quantity = new BigNumber(
-                item?.node?.asset?.orderData?.bestAsk?.paymentAssetQuantity
-                  ?.quantity || 0,
-              );
-              quantity.toNumber();
-              const price = quantity.shiftedBy(-decimals);
-              const eth_price = price.toNumber().toFixed(4);
-              return {
-                image_url: item?.node?.asset?.imageUrl,
-                name: item?.node?.asset?.name,
-                eth_price,
-              };
-            }
-          });
-          setTokens(tokens);
-        }
+        const tokens = response.map((item: any) => {
+          // eth_price
+          item.image_url = item.image_preview_url?.replace('https://lh3.googleusercontent.com', 'http://myhpb.cn')
+          return item
+        })
+        setTokens(tokens);
+        // if (response?.search?.edges) {
+        //   const tokens = response?.search?.edges?.map((item: any) => {
+        //     if (item?.node?.asset?.imageUrl) {
+        //       const decimals =
+        //         item?.node?.asset?.orderData?.bestAsk?.paymentAssetQuantity
+        //           ?.asset?.decimals;
+        //       const quantity = new BigNumber(
+        //         item?.node?.asset?.orderData?.bestAsk?.paymentAssetQuantity
+        //           ?.quantity || 0,
+        //       );
+        //       quantity.toNumber();
+        //       const price = quantity.shiftedBy(-decimals);
+        //       const eth_price = price.toNumber().toFixed(4);
+        //       return {
+        //         image_url: item?.node?.asset?.imageUrl,
+        //         name: item?.node?.asset?.name,
+        //         eth_price,
+        //       };
+        //     }
+        //   });
+        //   setTokens(tokens);
+        // }
       }
     });
   }, []);
@@ -81,13 +85,13 @@ const Assets = (props: any) => {
             <Categories
               categories={config?.categories?.edges}
               onClick={value => {
-                historyPush('assets','categories', value, query);
+                historyPush('assets', 'categories', value, query);
               }}
             />
             <Collection
               collections={config?.collections?.edges}
               onClick={value => {
-                historyPush('assets','collection', value, query);
+                historyPush('assets', 'collection', value, query);
               }}
             />
             <Status />
@@ -129,12 +133,12 @@ const Assets = (props: any) => {
             </div>
             <div className="assets-page__results-list">
               {tokens?.map((item, index) => {
-                return item ? <Auction key={index} token={item} /> : '';
+                return item ? <Auction key={index} token={item} query={query} /> : '';
               })}
+              {/*<div className="assets-page__results-endItem"></div>
               <div className="assets-page__results-endItem"></div>
               <div className="assets-page__results-endItem"></div>
-              <div className="assets-page__results-endItem"></div>
-              <div className="assets-page__results-endItem"></div>
+              <div className="assets-page__results-endItem"></div>*/}
             </div>
           </div>
         </div>
@@ -148,7 +152,7 @@ const Assets = (props: any) => {
             closable={false}
             onClose={onClose}
             visible={visible}
-            bodyStyle={{ backgroundColor: '#0C0E0D', padding: '0' }}
+            bodyStyle={{backgroundColor: '#0C0E0D', padding: '0'}}
           >
             <div className="assets-page__m-filter-header">
               <p className="title_3">clear all</p>
@@ -208,9 +212,9 @@ Assets.getInitialProps = async (ctx: any) => {
   if (!ctx.isServer) {
     return;
   }
-  await ctx.store.dispatch({ type: 'test/test' });
-  const { test } = ctx.store.getState();
-  return { test };
+  await ctx.store.dispatch({type: 'test/test'});
+  const {test} = ctx.store.getState();
+  return {test};
 };
 //@ts-ignore
-export default connect(({ test }) => ({ title: test }))(Assets);
+export default connect(({test}) => ({title: test}))(Assets);
