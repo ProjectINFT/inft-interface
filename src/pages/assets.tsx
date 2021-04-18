@@ -21,14 +21,16 @@ import {Auction} from '@/components/auction';
 import historyPush from '@/utils/historyPush';
 
 const Assets = (props: any) => {
+  const query = props.location.query;
   // const intl = useIntl();
   // const uaResults = useContext(UAContext).uaResults as UAResults;
   // const isMobile = uaResults.mobile;
   const [visible, setVisible] = useState(false);
   const [tokens, setTokens] = useState<any[]>([]);
   const [config, setConfig] = useState<any>(null);
-
-  const query = props.location.query;
+  const pageSize = 20
+  const [pageList, setPageList] = useState<any[]>([1, 2, 3, 4, 5]);
+  const [page, setPage] = useState<number>(1);
 
   const onClose = () => {
     setVisible(!visible);
@@ -41,14 +43,17 @@ const Assets = (props: any) => {
     </div>
   );
   useEffect(() => {
-    axios.get('https://api.opensea.io/api/v1/assets?token_ids=288734&order_direction=desc&offset=0&limit=20').then(res => {
+
+    let offset = (page - 1) * pageSize
+    axios.get(`https://api.opensea.io/api/v1/assets?token_ids=288734&order_direction=desc&offset=${offset}&limit=20`).then(res => {
       const response = res.data.assets;
       if (response) {
         const tokens = response.map((item: any) => {
-          // eth_price
+          item.eth_price = (item.sell_orders[0]?.current_price || 0) / 10e18
           item.image_url = item.image_preview_url?.replace('https://lh3.googleusercontent.com', 'http://myhpb.cn')
           return item
         })
+
         setTokens(tokens);
         // if (response?.search?.edges) {
         //   const tokens = response?.search?.edges?.map((item: any) => {
@@ -74,7 +79,7 @@ const Assets = (props: any) => {
         // }
       }
     });
-  }, []);
+  }, [page]);
 
   return (
     <div className="assets-page">
@@ -140,7 +145,17 @@ const Assets = (props: any) => {
               <div className="assets-page__results-endItem"></div>
               <div className="assets-page__results-endItem"></div>*/}
             </div>
+
+            <div className="assets-page__pagination">
+              {pageList.map((item) => {
+                return (<div className={(page === item) ? 'current page' : 'page'} key={item} onClick={value => {
+                  historyPush('assets', 'page', item, query);
+                  setPage(item)
+                }}>{item}</div>)
+              })}
+            </div>
           </div>
+
         </div>
       </UserAgent>
       <UserAgent mobile>

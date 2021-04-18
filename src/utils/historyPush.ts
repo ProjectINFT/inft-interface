@@ -4,6 +4,7 @@ import _ from 'lodash';
 type ParamterType =
   | 'categories'
   | 'collection'
+  | 'page'
   | 'address'
   | 'token_id'
   | 'status'
@@ -14,6 +15,7 @@ type LanguageType = 'zh' | 'en';
 type QueryType = {
   categories?: string;
   collection?: string;
+  page?: string;
   address?: string;
   token_id?: string;
   status?: string;
@@ -51,13 +53,21 @@ const historyPush = (
       },
     });
   }
-  if (paramter === 'address') {
+  if (paramter === 'page') {
     history.push({
       pathname: `/${pathname}`,
       query: {
         ...query,
-        address: value.asset_contract.address,
-        token_id: value.token_id,
+        page: value,
+      },
+    });
+  }
+  if (paramter === 'address') {
+    history.push({
+      pathname: `/${pathname}/${value.token_id}`,
+      query: {
+        ...query,
+        address: value.asset_contract.address
       },
     });
   }

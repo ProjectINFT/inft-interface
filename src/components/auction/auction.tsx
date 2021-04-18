@@ -13,7 +13,7 @@ const Auction: React.FC<IAuction> = ({token, query}) => {
   return (
     <div className="auction"
          onClick={() => {
-           historyPush('asset', 'address', token, query);
+           historyPush('assets', 'address', token, query);
          }}
     >
       <div className="auction__img">
