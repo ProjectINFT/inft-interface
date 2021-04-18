@@ -4,7 +4,8 @@ import AdditionalDetails from './additional-details';
 import Charts from './charts';
 import { UserAgent, UAContext } from '@quentin-sommer/react-useragent';
 
-const DetailContainer = () => {
+const DetailContainer = (props: any) => {
+  let {token = {}} = props
   return (
     <div className="price-container">
       <UserAgent computer>

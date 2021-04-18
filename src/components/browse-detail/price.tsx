@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import './index.less';
 
-const Price = () => {
+const Price = (props: any) => {
+  let {token} = props
   return (
     <div className="price">
       <p className="price__title title_3">Current price</p>

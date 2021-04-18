@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import './index.less';
 import iconOwners from '../../../public/svgs/owners.svg';
 import iconPeople from '../../../public/svgs/people.svg';
 import iconTotal from '../../../public/svgs/toal.svg';
-import { UserAgent, UAContext } from '@quentin-sommer/react-useragent';
+import {UserAgent, UAContext} from '@quentin-sommer/react-useragent';
 
 const mySubTiltle = [
   {
@@ -23,12 +23,14 @@ const mySubTiltle = [
   },
 ];
 
-const DetalHeader = () => {
+const DetalHeader = (props: any) => {
+  let {token = {}} = props
+
   return (
     <div className="detail-header">
       <div className="detail-header__title-container between_flex">
         <h1 className="detail-header__title title_1">
-          Ukiyo-e tale: The creative circle
+          {token.name}
         </h1>
         <UserAgent computer>
           <div className="detail-header__title-icon">

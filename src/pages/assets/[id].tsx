@@ -1,4 +1,5 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
+import axios from 'axios';
 import {connect, useIntl, getLocale, setLocale, Helmet} from 'umi';
 import {Header} from '@/components/header';
 import {Footer} from '@/components/footer';
@@ -13,9 +14,27 @@ const BrowseDetail = (props: {
   title: any, location: any
 }) => {
 
-  const {title, location,match} = props;
+  const {title, location, match} = props;
 
-  console.log(location.query.address, match.params.id);
+  const [token, setToken] = useState<any>({});
+
+  useEffect(() => {
+    axios.get(`https://api.opensea.io/api/v1/asset/${location.query.address}/${match.params.id}/`).then(res => {
+      let token = replaceImg(res.data)
+      setToken(token);
+    });
+  }, []);
+
+  function replaceImg(obj: any) {
+    for (let i in obj) {
+      if (obj.hasOwnProperty(i) && /lh3\.googleusercontent\.com/.test(obj[i])) {
+        obj[i] = obj[i].replace('https://lh3.googleusercontent.com/', 'http://myhpb.cn/')
+      } else if (typeof obj[i] === 'object') {
+        replaceImg(obj[i])
+      }
+    }
+    return obj
+  }
 
   const uaResults = useContext(UAContext).uaResults as UAResults;
   const isMobile = uaResults.mobile;
@@ -23,9 +42,9 @@ const BrowseDetail = (props: {
     <div className="browse-detail">
       <Header />
       <div className="base-width margin-top-40">
-        <DetailContainer />
-        <PriceContainer />
-        <TradingContainer />
+        <DetailContainer token={token} />
+        <PriceContainer token={token} />
+        <TradingContainer token={token} />
       </div>
       <Footer />
     </div>

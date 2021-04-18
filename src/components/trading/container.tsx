@@ -42,7 +42,9 @@ const tradingData = [
     date: '06/09/2020',
   },
 ];
-const DetailContainer = () => {
+const DetailContainer = (props: any) => {
+  let {token = {}} = props
+
   return (
     <div className="trading-container">
       <h1 className="trading-container__title title_1 vertical_center_flex">

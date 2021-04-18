@@ -4,7 +4,8 @@ import { Modal, Button, Input } from 'antd';
 import { UserAgent, UAContext } from '@quentin-sommer/react-useragent';
 import ErrorModal from './error-modal';
 
-const DetailButton = () => {
+const DetailButton = (props: any) => {
+  let {token} = props
   const [purchaseVisible, setPurchaseVisible] = useState(false);
   const [errorVisible, setErrorVisible] = useState(false);
   const [type, setType] = useState('make');
