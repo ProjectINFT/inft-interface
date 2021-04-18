@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import './index.less';
-import { Modal, Button, Input } from 'antd';
-import { UserAgent, UAContext } from '@quentin-sommer/react-useragent';
+import {Modal, Button, Input} from 'antd';
+import {UserAgent, UAContext} from '@quentin-sommer/react-useragent';
 import ErrorModal from './error-modal';
 
 const DetailButton = (props: any) => {
-  let {token} = props
+  let {token = {}} = props
+  let {price = {}} = token
   const [purchaseVisible, setPurchaseVisible] = useState(false);
   const [errorVisible, setErrorVisible] = useState(false);
   const [type, setType] = useState('make');
@@ -39,11 +40,11 @@ const DetailButton = (props: any) => {
           <UserAgent computer>
             <div className="browe-model__left">
               <img
-                src={require('../../../public/images/brawse/category-test.png')}
+                src={token.image_url}
                 alt=""
               />
               <h2 className="title_2 browe-model__left__title">
-                Ukiyo-e tale: The creative circle
+                {token.name}
               </h2>
               <div className="between_flex browe-model__left__subtitle">
                 <span className="body_1">Indrani Mitra</span>
@@ -65,19 +66,19 @@ const DetailButton = (props: any) => {
               <>
                 <p className="note_1">Payment Amount:</p>
                 <div className="browe-model__right__price center_flex">
-                  <img src={require('../../../public/svgs/eht.svg')} alt="" />
+                  <img src={price.image_url} alt="" />
                   <span className="number_1 browe-model__right__number">
-                    5.0168 ETH
+                    {price.price} {price.symbol}
                   </span>
                 </div>
               </>
             ) : (
               <>
                 <p className="note_1">
-                  Your offer must be at least: Ξ 0.30000.
+                  Your offer must be at least: Ξ {price.price}.
                 </p>
                 <div className="browe-model__right__price">
-                  <Input addonAfter="ETH" placeholder="Offer amount in Ether" />
+                  <Input addonAfter={price.symbol} placeholder={`Offer amount in ${price.name}`} />
                 </div>
               </>
             )}

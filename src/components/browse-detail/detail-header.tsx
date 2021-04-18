@@ -9,22 +9,29 @@ const mySubTiltle = [
   {
     key: 'owners',
     icon: iconOwners,
-    text: '2 owners',
+    text: '{n} Top Owners',
   },
-  {
-    key: 'total',
-    icon: iconTotal,
-    text: '15 Toal',
-  },
-  {
-    key: 'people',
-    icon: iconPeople,
-    text: 'Nicolas Castell',
-  },
+  // {
+  //   key: 'total',
+  //   icon: iconTotal,
+  //   text: '{n} Toal',
+  // },
+  // {
+  //   key: 'people',
+  //   icon: iconPeople,
+  //   text: '{n} Castell',
+  // },
 ];
 
 const DetalHeader = (props: any) => {
   let {token = {}} = props
+  let subTitleCount: any[] = [0, 0, 0]
+
+  if (token.name) {
+    document.title = token.name
+  }
+
+  subTitleCount[0] = token.top_ownerships?.length || 0;
 
   return (
     <div className="detail-header">
@@ -48,7 +55,7 @@ const DetalHeader = (props: any) => {
             >
               <img src={item?.icon} alt="" />
               <span className="note_1 detail-header__subtitle-text">
-                {item?.text}
+                {item?.text.replace('{n}', subTitleCount[index])}
               </span>
             </div>
           );

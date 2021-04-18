@@ -3,21 +3,23 @@
 @font-face {
   font-family: 'didact';
   src: url('../public/assets/fonts/DidactGothic-Regular.woff2') format('woff2'),
-    url('../public/assets/fonts/DidactGothic-Regular.woff') format('woff');
+  url('../public/assets/fonts/DidactGothic-Regular.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
+
 @font-face {
   font-family: 'hind';
   src: url('../public/assets/fonts/HindVadodara-Regular.woff2') format('woff2'),
-    url('../public/assets/fonts/HindVadodara-Regular.woff') format('woff');
+  url('../public/assets/fonts/HindVadodara-Regular.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
+
 @font-face {
   font-family: 'hind';
   src: url('../public/assets/fonts/HindVadodara-Bold.woff2') format('woff2'),
-    url('../public/assets/fonts/HindVadodara-Bold.woff') format('woff');
+  url('../public/assets/fonts/HindVadodara-Bold.woff') format('woff');
   font-weight: bold;
   font-style: normal;
 }
@@ -111,6 +113,7 @@ video {
   vertical-align: baseline;
   font-family: 'hind';
 }
+
 /* HTML5 display-role reset for older browsers */
 article,
 aside,
@@ -125,17 +128,21 @@ nav,
 section {
   display: block;
 }
+
 body {
   line-height: 1;
 }
+
 ol,
 ul {
   list-style: none;
 }
+
 blockquote,
 q {
   quotes: none;
 }
+
 blockquote:before,
 blockquote:after,
 q:before,
@@ -143,6 +150,7 @@ q:after {
   content: '';
   content: none;
 }
+
 table {
   border-collapse: collapse;
   border-spacing: 0;
@@ -161,6 +169,7 @@ table {
   text-transform: capitalize;
   color: @color-dark;
 }
+
 .title_2 {
   font-family: 'hind';
   font-weight: 600;
@@ -169,6 +178,7 @@ table {
   text-transform: capitalize;
   color: @color-dark;
 }
+
 .title_3 {
   font-family: 'hind';
   font-weight: 600;
@@ -177,6 +187,7 @@ table {
   text-transform: capitalize;
   color: @color-dark;
 }
+
 .title_4 {
   font-family: 'hind';
   font-weight: 600;
@@ -185,24 +196,28 @@ table {
   text-transform: capitalize;
   color: @color-dark;
 }
+
 .body_1 {
   font-family: 'didact';
   font-size: 16px;
   line-height: 26px;
   color: @color-dark;
 }
+
 .body_2 {
   font-family: 'didact';
   font-size: 14px;
   line-height: 22px;
   color: @color-dark;
 }
+
 .note_1 {
   font-family: 'hind';
   font-size: 12px;
   line-height: 19px;
   color: @color-dark;
 }
+
 .note_1_bold {
   font-family: 'hind';
   font-weight: 500;
@@ -211,12 +226,14 @@ table {
   text-transform: capitalize;
   color: @color-dark;
 }
+
 .note_2 {
   font-family: 'didact';
   font-size: 10px;
   line-height: 13px;
   color: @color-dark;
 }
+
 .note_3 {
   font-family: 'Didact Gothic';
   font-size: 10px;
@@ -224,11 +241,13 @@ table {
   line-height: 13px;
   color: @color-dark;
 }
+
 .number_1 {
   font-size: 32px;
   font-weight: 900;
   line-height: 38px;
 }
+
 .number_3 {
   font-family: 'Big Shoulders Display';
   font-weight: 900;
@@ -236,18 +255,22 @@ table {
   line-height: 22px;
   color: #343437;
 }
+
 .display_flex {
   display: flex;
 }
+
 .center_flex {
   &:extend(.display_flex);
   justify-content: center;
   align-items: center;
 }
+
 .between_flex {
   &:extend(.display_flex);
   justify-content: space-between;
 }
+
 .vertical_center_flex {
   &:extend(.display_flex);
   align-items: center;
@@ -258,12 +281,22 @@ table {
     width: 100%;
     margin: 0;
   }
+
+  .vertical_center_flex {
+    flex-direction: column;
+    align-items: flex-start;
+
+    .number_1 {
+      margin: 0;
+    }
+  }
 }
 
 /** ant design component style **/
 .categories-header {
   display: flex;
   align-items: center;
+
   img {
     display: block;
     width: 16px;
@@ -279,38 +312,47 @@ table {
 
 .common-modal-confirm {
   width: 416px;
+
   .ant-modal-content {
     border-radius: 12px;
   }
+
   .ant-btn {
     border: 1px solid #d9d9d9;
     border-radius: 4px;
     color: #595959;
+
     &:hover {
       color: #595959;
     }
   }
+
   .ant-btn-primary {
     background-color: #ffa710;
     border-color: #ffa710;
     width: 108px;
     color: #fff;
+
     &:hover {
       color: #fff;
     }
   }
+
   .ant-modal-confirm-body .ant-modal-confirm-title {
     color: #262626;
     font-weight: 600;
   }
+
   .ant-modal-confirm-body .ant-modal-confirm-content {
     color: #595959;
   }
 }
+
 .ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
   border-radius: 4px;
   border: 1px solid #f0f0f0;
 }
+
 .anticon-close {
   svg {
     color: @color-black;

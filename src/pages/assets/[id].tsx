@@ -21,6 +21,20 @@ const BrowseDetail = (props: {
   useEffect(() => {
     axios.get(`https://api.opensea.io/api/v1/asset/${location.query.address}/${match.params.id}/`).then(res => {
       let token = replaceImg(res.data)
+
+      let order = token.orders?.[0]
+      let currentPrice = order?.current_price || 0
+      let {usd_price = 0, symbol = '', decimals = 18, image_url, name} = order?.payment_token_contract || {}
+      let dc = Math.pow(10, decimals)
+      let price = currentPrice / dc
+      let usd = (currentPrice * usd_price / dc).toFixed(2)
+      token.price = {
+        price,
+        usd,
+        symbol,
+        image_url,
+        name
+      }
       setToken(token);
     });
   }, []);
@@ -43,8 +57,8 @@ const BrowseDetail = (props: {
       <Header />
       <div className="base-width margin-top-40">
         <DetailContainer token={token} />
-        <PriceContainer token={token} />
-        <TradingContainer token={token} />
+        {/*<PriceContainer token={token} />*/}
+        {/*<TradingContainer token={token} />*/}
       </div>
       <Footer />
     </div>
