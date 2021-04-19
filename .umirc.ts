@@ -3,7 +3,7 @@ const outputPath = 'dist/';
 
 const env = process.env.NODE_ENV;
 const publicPath =
-  env === 'development' ? 'http://127.0.0.1:8000/' : outputPath;
+  env === 'development' ? 'http://127.0.0.1:8000/' : './';
 
 export default defineConfig({
   ssr: {

@@ -2,10 +2,10 @@
   "private": true,
   "scripts": {
     "convert-svg": "svgr -d src/static/svg-components public/static/svgs --ext tsx",
-    "build": "cross-env ANALYZE=1 cross-env umi build",
+    "build": "cross-env ANALYZE=1 umi build",
     "start": "node server.js",
     "dev": "cross-env UMI_UI=none NODE_ENV=development concurrently \"umi dev\" \"nodemon server.js\"",
-    "buildAndCopy": "cross-env ANALYZE=1 cross-env umi build && node cp.js",
+    "buildAndCopy": "cross-env ANALYZE=1 umi build && node cp.js",
     "postinstall": "umi generate tmp",
     "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
     "test": "umi-test",
