@@ -6,7 +6,7 @@ import {Footer} from '@/components/footer';
 import {DetailContainer} from '@/components/browse-detail';
 import {PriceContainer} from '@/components/price';
 import {TradingContainer} from '@/components/trading';
-import './index.less';
+import './assetDetail.less';
 import {UAContext} from '@quentin-sommer/react-useragent';
 
 const BrowseDetail = (props: {
