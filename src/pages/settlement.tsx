@@ -23,8 +23,8 @@ const Settlement = () => {
         <h1 className="title_1">Make an offer</h1>
         <div className="settlement__content">
           <div className="settlement__img-wrapper">
+            {/*src={require('../../public/images/brawse/category-test.png')}*/}
             <img
-              src={require('../../public/images/brawse/category-test.png')}
               alt=""
               className="settlement__img"
             />
