@@ -46,10 +46,10 @@ const DetailButton = (props: any) => {
               <h2 className="title_2 browe-model__left__title">
                 {token.name}
               </h2>
-              <div className="between_flex browe-model__left__subtitle">
+              {/*<div className="between_flex browe-model__left__subtitle">
                 <span className="body_1">Indrani Mitra</span>
                 <span className="body_1">Edition of 1</span>
-              </div>
+              </div>*/}
             </div>
           </UserAgent>
 
@@ -74,9 +74,9 @@ const DetailButton = (props: any) => {
               </>
             ) : (
               <>
-                <p className="note_1">
+                {/*<p className="note_1">
                   Your offer must be at least: Ξ {price.price}.
-                </p>
+                </p>*/}
                 <div className="browe-model__right__price">
                   <Input addonAfter={price.symbol} placeholder={`Offer amount in ${price.name}`} />
                 </div>
