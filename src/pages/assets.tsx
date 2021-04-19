@@ -28,9 +28,9 @@ const Assets = (props: any) => {
   const [visible, setVisible] = useState(false);
   const [tokens, setTokens] = useState<any[]>([]);
   const [config, setConfig] = useState<any>(null);
-  const pageSize = 20
-  const [pageList, setPageList] = useState<any[]>([1, 2, 3, 4, 5]);
-  const [page, setPage] = useState<number>(1);
+  const pageSize = 10
+  const [page, setPage] = useState<number>(parseInt(query.page) || 1);
+  const [hasNext, setHasNext] = useState<any>(true);
 
   const onClose = () => {
     setVisible(!visible);
@@ -43,9 +43,8 @@ const Assets = (props: any) => {
     </div>
   );
   useEffect(() => {
-
     let offset = (page - 1) * pageSize
-    axios.get(`https://api.opensea.io/api/v1/assets?token_ids=288734&order_direction=desc&offset=${offset}&limit=20`).then(res => {
+    axios.get(`https://api.opensea.io/api/v1/assets?offset=${offset}&limit=${pageSize}`).then(res => {
       const response = res.data.assets;
       if (response) {
         const tokens = response.map((item: any) => {
@@ -53,6 +52,12 @@ const Assets = (props: any) => {
           item.image_url = item.image_preview_url?.replace('https://lh3.googleusercontent.com', 'http://myhpb.cn')
           return item
         })
+
+        if (tokens.length === pageSize) {
+          setHasNext(true)
+        } else {
+          setHasNext(false)
+        }
 
         setTokens(tokens);
         // if (response?.search?.edges) {
@@ -147,12 +152,23 @@ const Assets = (props: any) => {
             </div>
 
             <div className="assets-page__pagination">
-              {pageList.map((item) => {
-                return (<div className={(page === item) ? 'current page' : 'page'} key={item} onClick={value => {
-                  historyPush('assets', 'page', item, query);
-                  setPage(item)
-                }}>{item}</div>)
-              })}
+              <div className="page" onClick={() => {
+                historyPush('assets', 'page', 1, query);
+                setPage(1)
+                setTokens([]);
+              }}>First
+              </div>
+              {page > 1 && <div className="page" onClick={() => {
+                historyPush('assets', 'page', page - 1, query);
+                setPage(page - 1)
+                setTokens([]);
+              }}>Prev</div>}
+              <div className="page">{page}</div>
+              {hasNext && <div className="page" onClick={() => {
+                historyPush('assets', 'page', page + 1, query);
+                setPage(page + 1)
+                setTokens([]);
+              }}>Next</div>}
             </div>
           </div>
 
