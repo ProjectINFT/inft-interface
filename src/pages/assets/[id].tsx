@@ -19,7 +19,7 @@ const BrowseDetail = (props: {
   const [token, setToken] = useState<any>({});
 
   useEffect(() => {
-    axios.get(`https://api.opensea.io/api/v1/asset/${location.query.address}/${match.params.id}/`).then(res => {
+    axios.get(`https://api.opensea.io/api/v1/asset/${location.query.address}/${location.query.token_id}/`).then(res => {
       let token = replaceImg(res.data)
 
       let order = token.orders?.[0]

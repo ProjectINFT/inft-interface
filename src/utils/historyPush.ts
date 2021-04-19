@@ -1,4 +1,4 @@
-import { history } from 'umi';
+import {history} from 'umi';
 import _ from 'lodash';
 
 type ParamterType =
@@ -64,10 +64,10 @@ const historyPush = (
   }
   if (paramter === 'address') {
     history.push({
-      pathname: `/${pathname}/${value.token_id}`,
+      pathname: `/${pathname}`,
       query: {
-        ...query,
-        address: value.asset_contract.address
+        address: value.asset_contract.address,
+        token_id: value.token_id,
       },
     });
   }
