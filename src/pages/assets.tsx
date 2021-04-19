@@ -42,14 +42,27 @@ const Assets = (props: any) => {
       <p className="title_3">done</p>
     </div>
   );
+
+  function replaceImg(obj: any) {
+    for (let i in obj) {
+      if (obj.hasOwnProperty(i) && /lh3\.googleusercontent\.com/.test(obj[i])) {
+        obj[i] = obj[i].replace('https://lh3.googleusercontent.com/', 'http://myhpb.cn/')
+      } else if (typeof obj[i] === 'object') {
+        replaceImg(obj[i])
+      }
+    }
+    return obj
+  }
+
+
   useEffect(() => {
     let offset = (page - 1) * pageSize
     axios.get(`https://api.opensea.io/api/v1/assets?offset=${offset}&limit=${pageSize}`).then(res => {
       const response = res.data.assets;
       if (response) {
         const tokens = response.map((item: any) => {
-          item.eth_price = (item.sell_orders[0]?.current_price || 0) / 10e18
-          item.image_url = item.image_preview_url?.replace('https://lh3.googleusercontent.com', 'http://myhpb.cn')
+          item.eth_price = (item.sell_orders[0]?.current_price || 0) / Math.pow(10, 18)
+          item = replaceImg(item)
           return item
         })
 
