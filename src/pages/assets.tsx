@@ -57,11 +57,11 @@ const Assets = (props: any) => {
 
   useEffect(() => {
     let offset = (page - 1) * pageSize
-    axios.get(`https://api.opensea.io/api/v1/assets?offset=${offset}&limit=${pageSize}`).then(res => {
-      const response = res.data.assets;
+    axios.get(`https://api.opensea.io/wyvern/v1/orders?offset=${offset}&limit=${pageSize}`).then(res => {
+      const response = res.data.orders;
       if (response) {
         const tokens = response.map((item: any) => {
-          item.eth_price = (item.sell_orders[0]?.current_price || 0) / Math.pow(10, 18)
+          item.eth_price = (item.current_price || 0) / Math.pow(10, 18)
           item = replaceImg(item)
           return item
         })

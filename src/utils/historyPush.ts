@@ -66,8 +66,8 @@ const historyPush = (
     history.push({
       pathname: `/${pathname}`,
       query: {
-        address: value.asset_contract.address,
-        token_id: value.token_id,
+        address: value?.asset?.asset_contract?.address,
+        token_id: value?.asset?.token_id,
       },
     });
   }

@@ -17,14 +17,14 @@ const Auction: React.FC<IAuction> = ({token, query}) => {
          }}
     >
       <div className="auction__img">
-        {token?.image_url ? (
-          <img src={token?.image_url} alt="" />
+        {token?.asset?.image_url ? (
+          <img src={token?.asset?.image_url} alt="" />
         ) : (
           <AuctionLoader />
         )}
       </div>
       <div className="auction__info">
-        <div className="auction__title">{token?.name}</div>
+        <div className="auction__title">{token?.asset?.name}</div>
         <div className="auction__price">
           <UserAgent computer>
             <p className="auction__price-name">price</p>
