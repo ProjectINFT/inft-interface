@@ -41,8 +41,8 @@ const BrowseDetail = (props: {
 
   function replaceImg(obj: any) {
     for (let i in obj) {
-      if (obj.hasOwnProperty(i) && /lh3\.googleusercontent\.com/.test(obj[i])) {
-        obj[i] = obj[i].replace('https://lh3.googleusercontent.com/', 'http://myhpb.cn/')
+      if (obj.hasOwnProperty(i) && /lh3\.googleusercontent\.com|storage\.googleapis\.com/.test(obj[i])) {
+        obj[i] = 'http://myhpb.cn/proxy?content=' + btoa(obj[i])
       } else if (typeof obj[i] === 'object') {
         replaceImg(obj[i])
       }
