@@ -8,6 +8,7 @@ import {PriceContainer} from '@/components/price';
 import {TradingContainer} from '@/components/trading';
 import './assetDetail.less';
 import {UAContext} from '@quentin-sommer/react-useragent';
+import {OpenSeaPort, Network} from 'opensea-js';
 
 const BrowseDetail = (props: {
   match: any;
@@ -19,24 +20,54 @@ const BrowseDetail = (props: {
   const [token, setToken] = useState<any>({});
 
   useEffect(() => {
-    axios.get(`https://api.opensea.io/api/v1/asset/${location.query.address}/${location.query.token_id}/`).then(res => {
-      let token = replaceImg(res.data)
+    let web3Provider = typeof web3 !== 'undefined'
+      ? window.web3.currentProvider
+      : new Web3.providers.HttpProvider('https://mainnet.infura.io')
 
-      let order = token.orders?.[0]
-      let currentPrice = order?.current_price || 0
-      let {usd_price = 0, symbol = '', decimals = 18, image_url, name} = order?.payment_token_contract || {}
+    let seaport = new OpenSeaPort(web3Provider, {
+      networkName: Network.Main
+    })
+
+    seaport.api.getOrder({
+      limit: 1,
+      asset_contract_address: location.query.address,
+      token_id: location.query.token_id,
+    }).then(res => {
+      let token = replaceImg(res)
+
+      let currentPrice = res?.currentPrice?.toNumber() || 0
+      let {usdPrice = 0, symbol = '', decimals = 18, imageUrl = '', name} = res?.paymentTokenContract || {}
       let dc = Math.pow(10, decimals)
       let price = currentPrice / dc
-      let usd = (currentPrice * usd_price / dc).toFixed(2)
+      let usd = (currentPrice * usdPrice / dc).toFixed(2)
       token.price = {
         price,
         usd,
         symbol,
-        image_url,
+        imageUrl,
         name
       }
       setToken(token);
-    });
+    })
+
+    // axios.get(`https://api.opensea.io/api/v1/asset/${location.query.address}/${location.query.token_id}/`).then(res => {
+    //   let token = replaceImg(res.data)
+    //
+    //   let order = token.orders?.[0]
+    //   let currentPrice = order?.current_price || 0
+    //   let {usd_price = 0, symbol = '', decimals = 18, image_url, name} = order?.payment_token_contract || {}
+    //   let dc = Math.pow(10, decimals)
+    //   let price = currentPrice / dc
+    //   let usd = (currentPrice * usd_price / dc).toFixed(2)
+    //   token.price = {
+    //     price,
+    //     usd,
+    //     symbol,
+    //     image_url,
+    //     name
+    //   }
+    //   setToken(token);
+    // });
   }, []);
 
   function replaceImg(obj: any) {

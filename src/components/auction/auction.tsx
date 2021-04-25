@@ -13,12 +13,14 @@ const Auction: React.FC<IAuction> = ({token, query}) => {
   return (
     <div className="auction"
          onClick={() => {
-           historyPush('assetDetail', 'address', token, query);
+           if (token?.asset){
+             historyPush('assetDetail', 'address', token, query);
+           }
          }}
     >
       <div className="auction__img">
-        {token?.asset?.image_url ? (
-          <img src={token?.asset?.image_url} alt="" />
+        {token?.asset?.imageUrl ? (
+          <img src={token?.asset?.imageUrl} alt="" />
         ) : (
           <AuctionLoader />
         )}

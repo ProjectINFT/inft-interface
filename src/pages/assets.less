@@ -23,14 +23,17 @@
 
   &__pagination {
     display: flex;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
 
     .page {
-      height: 40px;
-      min-width: 40px;
-      padding-left: 10px;
-      padding-right: 10px;
+      height: 36px;
+      min-width: 36px;
+      padding-left: 15px;
+      padding-right: 15px;
       cursor: pointer;
       border-radius: 4px;
+      font-size: 14px;
       border: 1px solid #ddd;
       display: flex;
       align-items: center;
@@ -45,6 +48,11 @@
       &.current,
       &:hover {
         color: #3c77f4;
+      }
+
+      &.disabled {
+        color: rgba(0, 0, 0, .3);
+        cursor: not-allowed;
       }
     }
   }

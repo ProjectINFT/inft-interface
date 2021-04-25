@@ -4,6 +4,7 @@ import {Header} from '@/components/header';
 import './assets.less';
 import {UAContext, UserAgent} from '@quentin-sommer/react-useragent';
 import {Input, Select, Drawer} from 'antd';
+import {OpenSeaPort, Network} from 'opensea-js';
 
 const {Option} = Select;
 // import {SearchOutlined} from '@ant-design/icons';
@@ -56,47 +57,57 @@ const Assets = (props: any) => {
 
 
   useEffect(() => {
+    let web3Provider = typeof web3 !== 'undefined'
+      ? window.web3.currentProvider
+      : new Web3.providers.HttpProvider('https://mainnet.infura.io')
+
+    let seaport = new OpenSeaPort(web3Provider, {
+      networkName: Network.Main
+    })
     let offset = (page - 1) * pageSize
-    axios.get(`https://api.opensea.io/wyvern/v1/orders?offset=${offset}&limit=${pageSize}`).then(res => {
-      const response = res.data.orders;
-      if (response) {
-        const tokens = response.map((item: any) => {
-          item.eth_price = (item.current_price || 0) / Math.pow(10, 18)
-          item = replaceImg(item)
-          return item
-        })
+    setTokens(new Array(pageSize).fill({}));
 
-        if (tokens.length === pageSize) {
-          setHasNext(true)
-        } else {
-          setHasNext(false)
-        }
+    // DOC URL https://github.com/ProjectOpenSea/opensea-js
+    seaport.api.getOrders({
+      limit: pageSize,
+      offset: offset
+    }, page).then(res => {
+      // console.log(JSON.stringify(res.orders[0],null,4));
+      const tokens = res.orders.map((item: any) => {
+        item.eth_price = (item.currentPrice || 0) / Math.pow(10, item.paymentTokenContract?.decimals)
+        item = replaceImg(item)
+        return item
+      })
 
-        setTokens(tokens);
-        // if (response?.search?.edges) {
-        //   const tokens = response?.search?.edges?.map((item: any) => {
-        //     if (item?.node?.asset?.imageUrl) {
-        //       const decimals =
-        //         item?.node?.asset?.orderData?.bestAsk?.paymentAssetQuantity
-        //           ?.asset?.decimals;
-        //       const quantity = new BigNumber(
-        //         item?.node?.asset?.orderData?.bestAsk?.paymentAssetQuantity
-        //           ?.quantity || 0,
-        //       );
-        //       quantity.toNumber();
-        //       const price = quantity.shiftedBy(-decimals);
-        //       const eth_price = price.toNumber().toFixed(4);
-        //       return {
-        //         image_url: item?.node?.asset?.imageUrl,
-        //         name: item?.node?.asset?.name,
-        //         eth_price,
-        //       };
-        //     }
-        //   });
-        //   setTokens(tokens);
-        // }
+      if (tokens.length === pageSize) {
+        setHasNext(true)
+      } else {
+        setHasNext(false)
       }
-    });
+
+      setTokens(tokens);
+    })
+
+    // setTokens(new Array(pageSize).fill({}));
+    // axios.get(`https://api.opensea.io/wyvern/v1/orders?offset=${offset}&limit=${pageSize}`).then(res => {
+    //   const response = res.data.orders;
+    //   if (response) {
+    //     const tokens = response.map((item: any) => {
+    //       item.eth_price = (item.current_price || 0) / Math.pow(10, 18)
+    //       item = replaceImg(item)
+    //       return item
+    //     })
+    //
+    //     if (tokens.length === pageSize) {
+    //       setHasNext(true)
+    //     } else {
+    //       setHasNext(false)
+    //     }
+    //
+    //     setTokens(tokens);
+    //   }
+    // });
+
   }, [page]);
 
   return (
@@ -132,9 +143,27 @@ const Assets = (props: any) => {
                 placeholder="Search items, collection,and users"
               /> */}
             </div>
+            <div className="assets-page__pagination">
+              <div className={page > 1 ? 'page' : 'page disabled'} onClick={() => {
+                if (page > 1) {
+                  historyPush('assets', 'page', page - 1, query);
+                  setPage(page - 1)
+                  setTokens([]);
+                }
+              }}>Prev
+              </div>
+              <div className={hasNext ? 'page' : 'page disabled'} onClick={() => {
+                if (hasNext) {
+                  historyPush('assets', 'page', page + 1, query);
+                  setPage(page + 1)
+                  setTokens([]);
+                }
+              }}>Next
+              </div>
+            </div>
             {/* <SellItems /> */}
             <div className="assets-page__content-results">
-              <p className="note_1_bold">{tokens.length} Results</p>
+              <p className="note_1_bold">{tokens.filter(item => item.asset).length} Results</p>
               {/* <div className="assets-page__content-select">
                 <Select
                   defaultValue="all"
@@ -155,34 +184,9 @@ const Assets = (props: any) => {
               </div> */}
             </div>
             <div className="assets-page__results-list">
-              {tokens?.map((item, index) => {
-                return item ? <Auction key={index} token={item} query={query} /> : '';
-              })}
-              {/*<div className="assets-page__results-endItem"></div>
-              <div className="assets-page__results-endItem"></div>
-              <div className="assets-page__results-endItem"></div>
-              <div className="assets-page__results-endItem"></div>*/}
+              {tokens?.map((item, index) => <Auction key={index} token={item} query={query} />)}
             </div>
 
-            <div className="assets-page__pagination">
-              <div className="page" onClick={() => {
-                historyPush('assets', 'page', 1, query);
-                setPage(1)
-                setTokens([]);
-              }}>First
-              </div>
-              {page > 1 && <div className="page" onClick={() => {
-                historyPush('assets', 'page', page - 1, query);
-                setPage(page - 1)
-                setTokens([]);
-              }}>Prev</div>}
-              <div className="page">{page}</div>
-              {hasNext && <div className="page" onClick={() => {
-                historyPush('assets', 'page', page + 1, query);
-                setPage(page + 1)
-                setTokens([]);
-              }}>Next</div>}
-            </div>
           </div>
 
         </div>

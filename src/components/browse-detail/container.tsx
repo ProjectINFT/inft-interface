@@ -15,7 +15,7 @@ const DetailContainer = (props: any) => {
         <DetalHeader token={token} />
       </UserAgent>
       <img
-        src={token.image_url}
+        src={token?.asset?.imageUrl}
         alt=""
         className="detail__banner"
       />

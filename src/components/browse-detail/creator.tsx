@@ -9,7 +9,7 @@ const Creator = (props: any) => {
       <div className="creator__container vertical_center_flex">
         <div className="creator__container__avatar-container">
           <img
-            src={token.creator?.profile_img_url}
+            src={token.takerAccount?.profile_img_url}
             alt=""
             className="creator__container__avatar"
           />
@@ -19,7 +19,7 @@ const Creator = (props: any) => {
             className="creator__container__avatar-confirm"
           />
         </div>
-        <span className="title_3 creator__container__name">{token.creator?.user?.username}</span>
+        <span className="title_3 creator__container__name">{token.takerAccount?.user?.username}</span>
       </div>
     </div>
   );
