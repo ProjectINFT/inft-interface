@@ -1,22 +1,19 @@
-import React, {useContext, useState, useEffect} from 'react';
-import {connect, useIntl, getLocale, setLocale, Helmet, history} from 'umi';
+import React, {useState, useEffect} from 'react';
+import {connect} from 'umi';
 import {Header} from '@/components/header';
 import './assets.less';
-import {UAContext, UserAgent} from '@quentin-sommer/react-useragent';
-import {Input, Select, Drawer} from 'antd';
+import {UserAgent} from '@quentin-sommer/react-useragent';
+import {Select, Drawer} from 'antd';
 import {OpenSeaPort, Network} from 'opensea-js';
 
 const {Option} = Select;
-// import {SearchOutlined} from '@ant-design/icons';
 import {
   Categories,
   Collection,
   SellIn,
   Status,
   CategoryInfo,
-  // SellItems,
 } from '@/components/browse';
-import axios from 'axios';
 import {Auction} from '@/components/auction';
 // import BigNumber from 'bignumber.js';
 import historyPush from '@/utils/historyPush';
@@ -87,27 +84,6 @@ const Assets = (props: any) => {
 
       setTokens(tokens);
     })
-
-    // setTokens(new Array(pageSize).fill({}));
-    // axios.get(`https://api.opensea.io/wyvern/v1/orders?offset=${offset}&limit=${pageSize}`).then(res => {
-    //   const response = res.data.orders;
-    //   if (response) {
-    //     const tokens = response.map((item: any) => {
-    //       item.eth_price = (item.current_price || 0) / Math.pow(10, 18)
-    //       item = replaceImg(item)
-    //       return item
-    //     })
-    //
-    //     if (tokens.length === pageSize) {
-    //       setHasNext(true)
-    //     } else {
-    //       setHasNext(false)
-    //     }
-    //
-    //     setTokens(tokens);
-    //   }
-    // });
-
   }, [page]);
 
   return (

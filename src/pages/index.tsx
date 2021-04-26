@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from 'react';
-import { connect, useIntl, getLocale, setLocale, Helmet } from 'umi';
+import React, { useContext } from "react";
+import { connect, useIntl} from 'umi';
 import { Header } from '@/components/header';
 import Category from '@/components/category';
 import { Banner } from '@/components/banner';
@@ -7,7 +7,7 @@ import { AuctionContainer } from '@/components/auction';
 import { NftContainer } from '@/components/nft-list';
 import { Footer } from '@/components/footer';
 import './index.less';
-import { UAContext } from '@quentin-sommer/react-useragent';
+import { UAContext } from "@quentin-sommer/react-useragent";
 import axios from 'axios';
 
 const Home = (props: any) => {

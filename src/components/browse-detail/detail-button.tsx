@@ -3,13 +3,25 @@ import './index.less';
 import {Modal, Button, Input} from 'antd';
 import {UserAgent} from '@quentin-sommer/react-useragent';
 import ErrorModal from './error-modal';
-import {OpenSeaPort, Network} from 'opensea-js';
+import * as Web3 from 'web3'
+import {OpenSeaPort, Network} from 'opensea-js'
+
+let web3: any;
+
+if (typeof web3 !== 'undefined') {
+  web3 = new Web3(web3.currentProvider);
+} else {
+  // set the provider you want from Web3.providers
+  web3 = new Web3(new Web3.providers.HttpProvider("https://mainnet.infura.io"));
+}
+
 
 const DetailButton = (props: any) => {
   let {token = {}} = props
   let {price = {}} = token
   let order = token
   const [purchaseVisible, setPurchaseVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [errorVisible, setErrorVisible] = useState(false);
   const [type, setType] = useState('make');
   const showModal = (type: string) => {
@@ -29,10 +41,16 @@ const DetailButton = (props: any) => {
     if (!win.ethereum) {
       return
     }
-
+    setLoading(true)
     win.ethereum.request({method: 'eth_requestAccounts'}).then((res: any) => {
       let accountAddress = res[0]
-      let web3Provider = typeof web3 !== 'undefined'
+      console.log(accountAddress);
+      // win.ethereum.request({
+      //   method: 'eth_getBalance'
+      // }).then((balance: any) => {
+      //   console.log(balance);
+
+      let web3Provider = typeof win.web3 !== 'undefined'
         ? win.web3.currentProvider
         : new Web3.providers.HttpProvider('https://mainnet.infura.io')
 
@@ -40,10 +58,17 @@ const DetailButton = (props: any) => {
         networkName: Network.Main,
         apiKey: '8808fca8725c4fcf833424c18d0d3baa'
       })
-
+      //
       seaport.fulfillOrder({order, accountAddress}).then(hash => {
         console.log(hash);
+        setLoading(false)
+      }).catch(e => {
+        setLoading(false)
+        alert(e.toString().match(/The exact error was "([^"]+)"/)?.[1])
       })
+      // }).catch(e=>{
+      //   console.log(e);
+      // })
     })
   }
 
@@ -63,16 +88,16 @@ const DetailButton = (props: any) => {
       {/*  <App />*/}
       {/*</UseWalletProvider>*/}
       <div>
-        <Button className="detail__buy" onClick={() => {
+        {token.side === 1 && <Button className="detail__buy" onClick={() => {
           showModal('purchase')
         }}>
           Buy Now
-        </Button>
-        <Button className="detail__offer" onClick={() => {
+        </Button>}
+        {token.side === 0 && <Button className="detail__offer" onClick={() => {
           showModal('makeOffer')
         }}>
           Make Offer
-        </Button>
+        </Button>}
       </div>
       <Modal
         className="browse-model"
@@ -126,9 +151,10 @@ const DetailButton = (props: any) => {
                 </div>
               </>
             )}
-            <Button className="detail__buy Purchase mobile_button_width" onClick={connectWallet}>
+            {loading && <Button className="detail__buy Purchase mobile_button_width">Loading...</Button>}
+            {!loading && <Button className="detail__buy Purchase mobile_button_width" onClick={connectWallet}>
               Purchase
-            </Button>
+            </Button>}
           </div>
         </div>
       </Modal>

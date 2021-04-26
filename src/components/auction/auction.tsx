@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './index.less';
 import AuctionLoader from './auction-loader';
 import {UserAgent} from '@quentin-sommer/react-useragent';
@@ -13,7 +13,7 @@ const Auction: React.FC<IAuction> = ({token, query}) => {
   return (
     <div className="auction"
          onClick={() => {
-           if (token?.asset){
+           if (token?.asset) {
              historyPush('assetDetail', 'address', token, query);
            }
          }}

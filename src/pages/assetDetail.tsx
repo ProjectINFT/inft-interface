@@ -1,11 +1,8 @@
 import React, {useContext, useEffect, useState} from 'react';
-import axios from 'axios';
-import {connect, useIntl, getLocale, setLocale, Helmet} from 'umi';
+import {connect} from 'umi';
 import {Header} from '@/components/header';
 import {Footer} from '@/components/footer';
 import {DetailContainer} from '@/components/browse-detail';
-import {PriceContainer} from '@/components/price';
-import {TradingContainer} from '@/components/trading';
 import './assetDetail.less';
 import {UAContext} from '@quentin-sommer/react-useragent';
 import {OpenSeaPort, Network} from 'opensea-js';
@@ -15,7 +12,7 @@ const BrowseDetail = (props: {
   title: any, location: any
 }) => {
 
-  const {title, location, match} = props;
+  const {location} = props;
 
   const [token, setToken] = useState<any>({});
 
