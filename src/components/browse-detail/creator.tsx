@@ -3,13 +3,14 @@ import './index.less';
 
 const Creator = (props: any) => {
   let {token = {}} = props
+  console.log(token);
   return (
     <div className="creator">
       <p className="creator__title title_3">Creator:</p>
       <div className="creator__container vertical_center_flex">
         <div className="creator__container__avatar-container">
           <img
-            src={token.takerAccount?.profile_img_url}
+            src={token.makerAccount?.profile_img_url}
             alt=""
             className="creator__container__avatar"
           />
@@ -19,7 +20,10 @@ const Creator = (props: any) => {
             className="creator__container__avatar-confirm"
           />
         </div>
-        <span className="title_3 creator__container__name">{token.takerAccount?.user?.username}</span>
+        <span className="title_3 creator__container__name">{token.makerAccount?.user?.username}</span>
+      </div>
+      <div style={{fontSize:12,marginTop:10}}>
+        {token?.makerAccount?.address}
       </div>
     </div>
   );

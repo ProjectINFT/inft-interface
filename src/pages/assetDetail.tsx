@@ -6,7 +6,8 @@ import {DetailContainer} from '@/components/browse-detail';
 import './assetDetail.less';
 import {UAContext} from '@quentin-sommer/react-useragent';
 import {OpenSeaPort, Network} from 'opensea-js';
-
+// @ts-ignore
+import * as Web3 from 'web3'
 const BrowseDetail = (props: {
   match: any;
   title: any, location: any
@@ -17,8 +18,9 @@ const BrowseDetail = (props: {
   const [token, setToken] = useState<any>({});
 
   useEffect(() => {
+    let win:any = window
     let web3Provider = typeof web3 !== 'undefined'
-      ? window.web3.currentProvider
+      ? win.web3.currentProvider
       : new Web3.providers.HttpProvider('https://mainnet.infura.io')
 
     let seaport = new OpenSeaPort(web3Provider, {
@@ -46,25 +48,6 @@ const BrowseDetail = (props: {
       }
       setToken(token);
     })
-
-    // axios.get(`https://api.opensea.io/api/v1/asset/${location.query.address}/${location.query.token_id}/`).then(res => {
-    //   let token = replaceImg(res.data)
-    //
-    //   let order = token.orders?.[0]
-    //   let currentPrice = order?.current_price || 0
-    //   let {usd_price = 0, symbol = '', decimals = 18, image_url, name} = order?.payment_token_contract || {}
-    //   let dc = Math.pow(10, decimals)
-    //   let price = currentPrice / dc
-    //   let usd = (currentPrice * usd_price / dc).toFixed(2)
-    //   token.price = {
-    //     price,
-    //     usd,
-    //     symbol,
-    //     image_url,
-    //     name
-    //   }
-    //   setToken(token);
-    // });
   }, []);
 
   function replaceImg(obj: any) {

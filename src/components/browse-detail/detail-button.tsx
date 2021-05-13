@@ -1,10 +1,11 @@
-import React, {useState,} from 'react';
+import React, { useEffect, useState } from 'react';
 import './index.less';
-import {Modal, Button, Input} from 'antd';
-import {UserAgent} from '@quentin-sommer/react-useragent';
+import { Modal, Button, Input } from 'antd';
+import { UserAgent } from '@quentin-sommer/react-useragent';
 import ErrorModal from './error-modal';
-import * as Web3 from 'web3'
-import {OpenSeaPort, Network} from 'opensea-js'
+// @ts-ignore
+import * as Web3 from 'web3';
+import { OpenSeaPort, Network } from 'opensea-js';
 
 let web3: any;
 
@@ -12,18 +13,39 @@ if (typeof web3 !== 'undefined') {
   web3 = new Web3(web3.currentProvider);
 } else {
   // set the provider you want from Web3.providers
-  web3 = new Web3(new Web3.providers.HttpProvider("https://mainnet.infura.io"));
+  web3 = new Web3(new Web3.providers.HttpProvider('https://mainnet.infura.io'));
 }
 
 
 const DetailButton = (props: any) => {
-  let {token = {}} = props
-  let {price = {}} = token
-  let order = token
+  let { token = {} } = props;
+  let { price = {} } = token;
+  let order = token;
   const [purchaseVisible, setPurchaseVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorVisible, setErrorVisible] = useState(false);
   const [type, setType] = useState('make');
+  useEffect(() => {
+    const win: any = window;
+    if (!win.ethereum) {
+      return;
+    }
+    // 获取网络
+    const web3 = new Web3(win.web3.currentProvider);
+    const subscription = web3.eth.subscribe('pendingTransactions', function(error: any, result: any) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log(result);
+      }
+    });
+    return () => {
+      subscription?.unsubscribe(function(error: any, success: any) {
+        if (success)
+          console.log('Successfully unsubscribed!');
+      });
+    };
+  }, []);
   const showModal = (type: string) => {
     setPurchaseVisible(true);
     setType(type);
@@ -37,13 +59,13 @@ const DetailButton = (props: any) => {
   };
 
   const connectWallet = () => {
-    const win: any = window
+    const win: any = window;
     if (!win.ethereum) {
-      return
+      return;
     }
-    setLoading(true)
-    win.ethereum.request({method: 'eth_requestAccounts'}).then((res: any) => {
-      let accountAddress = res[0]
+    setLoading(true);
+    win.ethereum.request({ method: 'eth_requestAccounts' }).then((res: any) => {
+      let accountAddress = res[0];
       console.log(accountAddress);
       // win.ethereum.request({
       //   method: 'eth_getBalance'
@@ -52,29 +74,29 @@ const DetailButton = (props: any) => {
 
       let web3Provider = typeof win.web3 !== 'undefined'
         ? win.web3.currentProvider
-        : new Web3.providers.HttpProvider('https://mainnet.infura.io')
+        : new Web3.providers.HttpProvider('https://mainnet.infura.io');
 
       let seaport = new OpenSeaPort(web3Provider, {
         networkName: Network.Main,
-        apiKey: '8808fca8725c4fcf833424c18d0d3baa'
-      })
+        apiKey: '8808fca8725c4fcf833424c18d0d3baa',
+      });
       //
-      seaport.fulfillOrder({order, accountAddress}).then(hash => {
+      seaport.fulfillOrder({ order, accountAddress }).then(hash => {
         console.log(hash);
-        setLoading(false)
+        setLoading(false);
       }).catch(e => {
-        setLoading(false)
-        alert(e.toString().match(/The exact error was "([^"]+)"/)?.[1])
-      })
+        setLoading(false);
+        alert(e.toString().match(/The exact error was "([^"]+)"/)?.[1]);
+      });
       // }).catch(e=>{
       //   console.log(e);
       // })
-    })
-  }
+    });
+  };
 
 
   return (
-    <div className="detail-button">
+    <div className='detail-button'>
       {/*<UseWalletProvider*/}
       {/*  chainId={1}*/}
       {/*  connectors={{*/}
@@ -88,31 +110,31 @@ const DetailButton = (props: any) => {
       {/*  <App />*/}
       {/*</UseWalletProvider>*/}
       <div>
-        {token.side === 1 && <Button className="detail__buy" onClick={() => {
-          showModal('purchase')
+        {token.side === 1 && <Button className='detail__buy' onClick={() => {
+          showModal('purchase');
         }}>
           Buy Now
         </Button>}
-        {token.side === 0 && <Button className="detail__offer" onClick={() => {
-          showModal('makeOffer')
+        {token.side === 0 && <Button className='detail__offer' onClick={() => {
+          showModal('makeOffer');
         }}>
           Make Offer
         </Button>}
       </div>
       <Modal
-        className="browse-model"
+        className='browse-model'
         visible={purchaseVisible}
         onCancel={handleCancel}
         footer={null}
       >
-        <div className="display_flex">
+        <div className='display_flex'>
           <UserAgent computer>
-            <div className="browe-model__left">
+            <div className='browe-model__left'>
               <img
                 src={token.asset?.imageUrl}
-                alt=""
+                alt=''
               />
-              <h2 className="title_2 browe-model__left__title">
+              <h2 className='title_2 browe-model__left__title'>
                 {token.asset?.name}
               </h2>
               {/*<div className="between_flex browe-model__left__subtitle">
@@ -122,21 +144,21 @@ const DetailButton = (props: any) => {
             </div>
           </UserAgent>
 
-          <div className="browe-model__right">
-            <h2 className="title_2">
+          <div className='browe-model__right'>
+            <h2 className='title_2'>
               {type == 'purchase' ? 'Payment Method' : 'Offer Method'}
             </h2>
-            <div className="note_1 browe-model__right__desc">
+            <div className='note_1 browe-model__right__desc'>
               We will use your digital wallet to complete this purchase. You
               will need to confirm your purchase with your digital wallet.
             </div>
 
             {type === 'purchase' ? (
               <>
-                <p className="note_1">Payment Amount:</p>
-                <div className="browe-model__right__price center_flex">
-                  <img src={price.imageUrl} alt="" />
-                  <span className="number_1 browe-model__right__number">
+                <p className='note_1'>Payment Amount:</p>
+                <div className='browe-model__right__price center_flex'>
+                  <img src={price.imageUrl} alt='' />
+                  <span className='number_1 browe-model__right__number'>
                     {price.price} {price.symbol}
                   </span>
                 </div>
@@ -146,20 +168,20 @@ const DetailButton = (props: any) => {
                 {/*<p className="note_1">
                   Your offer must be at least: Ξ {price.price}.
                 </p>*/}
-                <div className="browe-model__right__price">
+                <div className='browe-model__right__price'>
                   <Input addonAfter={price.symbol} placeholder={`Offer amount in ${price.name}`} />
                 </div>
               </>
             )}
-            {loading && <Button className="detail__buy Purchase mobile_button_width">Loading...</Button>}
-            {!loading && <Button className="detail__buy Purchase mobile_button_width" onClick={connectWallet}>
+            {loading && <Button className='detail__buy Purchase mobile_button_width'>Loading...</Button>}
+            {!loading && <Button className='detail__buy Purchase mobile_button_width' onClick={connectWallet}>
               Purchase
             </Button>}
           </div>
         </div>
       </Modal>
       <Modal
-        className="browse-model error-model"
+        className='browse-model error-model'
         visible={errorVisible}
         onCancel={() => toggleError(false)}
         footer={null}
