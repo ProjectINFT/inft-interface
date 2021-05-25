@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './index.less';
 
 const Creator = (props: any) => {
   let {token = {}} = props
-  console.log(token);
+
   return (
     <div className="creator">
       <p className="creator__title title_3">Creator:</p>
