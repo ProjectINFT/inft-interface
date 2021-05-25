@@ -25,27 +25,9 @@ const DetailButton = (props: any) => {
   const [loading, setLoading] = useState(false);
   const [errorVisible, setErrorVisible] = useState(false);
   const [type, setType] = useState('make');
-  useEffect(() => {
-    const win: any = window;
-    if (!win.ethereum) {
-      return;
-    }
-    // 获取网络
-    const web3 = new Web3(win.web3.currentProvider);
-    const subscription = web3.eth.subscribe('pendingTransactions', function(error: any, result: any) {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log(result);
-      }
-    });
-    return () => {
-      subscription?.unsubscribe(function(error: any, success: any) {
-        if (success)
-          console.log('Successfully unsubscribed!');
-      });
-    };
-  }, []);
+  const [errorMsg, setErrorMsg] = useState('');
+  const [successMsg, setSuccessMsg] = useState('');
+
   const showModal = (type: string) => {
     setPurchaseVisible(true);
     setType(type);
@@ -59,6 +41,8 @@ const DetailButton = (props: any) => {
   };
 
   const connectWallet = () => {
+    setErrorMsg('');
+    setSuccessMsg('');
     const win: any = window;
     if (!win.ethereum) {
       return;
@@ -67,10 +51,6 @@ const DetailButton = (props: any) => {
     win.ethereum.request({ method: 'eth_requestAccounts' }).then((res: any) => {
       let accountAddress = res[0];
       console.log(accountAddress);
-      // win.ethereum.request({
-      //   method: 'eth_getBalance'
-      // }).then((balance: any) => {
-      //   console.log(balance);
 
       let web3Provider = typeof win.web3 !== 'undefined'
         ? win.web3.currentProvider
@@ -80,17 +60,13 @@ const DetailButton = (props: any) => {
         networkName: Network.Main,
         apiKey: '8808fca8725c4fcf833424c18d0d3baa',
       });
-      //
       seaport.fulfillOrder({ order, accountAddress }).then(hash => {
-        console.log(hash);
+        setSuccessMsg('Successful transaction');
         setLoading(false);
       }).catch(e => {
         setLoading(false);
-        alert(e.toString().match(/The exact error was "([^"]+)"/)?.[1]);
+        setErrorMsg(e.message);
       });
-      // }).catch(e=>{
-      //   console.log(e);
-      // })
     });
   };
 
@@ -165,18 +141,16 @@ const DetailButton = (props: any) => {
               </>
             ) : (
               <>
-                {/*<p className="note_1">
-                  Your offer must be at least: Ξ {price.price}.
-                </p>*/}
                 <div className='browe-model__right__price'>
                   <Input addonAfter={price.symbol} placeholder={`Offer amount in ${price.name}`} />
+                  {errorMsg && <div className="errorMsg">{errorMsg}</div>}
+                  {successMsg && <div className="successMsg">{successMsg}</div>}
                 </div>
               </>
             )}
-            {loading && <Button className='detail__buy Purchase mobile_button_width'>Loading...</Button>}
-            {!loading && <Button className='detail__buy Purchase mobile_button_width' onClick={connectWallet}>
-              Purchase
-            </Button>}
+            <Button className='detail__buy Purchase mobile_button_width' onClick={connectWallet}>
+              {loading ? 'Loading...' : 'Purchase'}
+            </Button>
           </div>
         </div>
       </Modal>
@@ -191,5 +165,4 @@ const DetailButton = (props: any) => {
     </div>
   );
 };
-
 export default DetailButton;
